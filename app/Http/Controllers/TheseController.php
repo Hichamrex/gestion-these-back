@@ -12,28 +12,20 @@ class TheseController extends Controller
 
     public function index()
     {
-        return response()->json(These::all(), 200);
+        return response()->json([
+            'status' => 200,
+            'message' => "Departement Created successfully",
+            'data' => These::all()], 200);
     }
 
     public function store(Request $request)
     {
-            $table->unsignedBigInteger('agent_recherche_id')->nullable();
-            $table->foreign('agent_recherche_id')->references('id')->on('agent_recherche')->onDelete('set null');
-            
-            $table->unsignedBigInteger('laboratoire_id')->nullable();
-            $table->foreign('laboratoire_id')->references('id')->on('laboratoire')->onDelete('set null');
-            
-            $table->unsignedBigInteger('directeur_these_id')->nullable();
-            $table->foreign('directeur_these_id')->references('id')->on('directeur_these')->onDelete('set null');
-            
-            $table->unsignedBigInteger('doctorant_id')->nullable();
-            $table->foreign('doctorant_id')->references('id')->on('doctorant')->onDelete('set null');
         $validated = $request->validate([
             'titre' => 'required|string|max:255',
             'sujet' => 'required|string|max:255',
             'date_demarrage' => 'required|date',
-            'date_publication' => 'date',
-            'date_soutenance' => 'date',
+            'date_publication' => 'required|string|max:40',
+            'date_soutenance' => 'required|date',
             'agent_recherche_id' => 'required|integer',
             'laboratoire_id' => 'required|integer',
             'directeur_these_id' => 'required|integer',
@@ -41,12 +33,18 @@ class TheseController extends Controller
         ]);
 
         $superAdmin = These::create($validated);
-        return response()->json($superAdmin, 201);
+        return response()->json([
+            'status' => 200,
+            'message' => "Departement Created successfully",
+            'data' => []], 200);
     }
 
-    public function show(These $superAdmin)
+    public function show(These $id)
     {
-        return response()->json($superAdmin, 200);
+        return response()->json([
+            'status' => 200,
+            'message' => "Departement Created successfully",
+            'data' => $id], 200);
     }
 
     public function update(Request $request, These $id)
@@ -55,7 +53,7 @@ class TheseController extends Controller
             'titre' => 'sometimes|string|max:255',
             'sujet' => 'sometimes|string|max:255',
             'date_demarrage' => 'sometimes|date',
-            'date_publication' => 'sometimes|date',
+            'date_publication' => 'sometimes|string',
             'date_soutenance' => 'sometimes|date',
             'agent_recherche_id' => 'required|integer',
             'laboratoire_id' => 'required|integer',
@@ -64,13 +62,19 @@ class TheseController extends Controller
         ]);
 
         $id->update($validated);
-        return response()->json($id, 200);
+        return response()->json([
+            'status' => 200,
+            'message' => "Departement Created successfully",
+            'data' => $id], 200);
     }
 
     public function destroy(These $id)
     {
         $id->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'status' => 200,
+            'message' => "Departement Created successfully",
+            'data' => []], 200);
     }
     
 }

@@ -19,6 +19,7 @@ class superAdminController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:super_admins',
+            'role' => 'required|string|max:50',
             'password' => 'required|string|min:8',
         ]);
 

@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Laboratoire;
-use App\Models\AgentRecherche;
+// use App\Models\AgentRecherche;
+use App\Models\UserThese;
 use App\Models\DirecteurThese;
 use App\Models\Doctorant;
 
@@ -17,6 +18,7 @@ class These extends Model
 
     protected $fillable = [
         'titre',
+        'sujet',
         'date_demarrage',
         'date_publication',
         'date_soutenance',
@@ -28,7 +30,7 @@ class These extends Model
 
     public function agent_recheche(): BelongsTo
     {
-        return $this->belongsTo(AgentRecherche::class, 'agent_recherche_id');
+        return $this->belongsTo(UserThese::class, 'agent_recherche_id');
     }
 
     public function laboratoire(): BelongsTo
@@ -38,11 +40,11 @@ class These extends Model
 
     public function doctorant(): BelongsTo
     {
-        return $this->belongsTo(Doctorant::class, 'doctorant_id');
+        return $this->belongsTo(UserThese::class, 'doctorant_id');
     }
 
     public function directeur_these(): BelongsTo
     {
-        return $this->belongsTo(DirecteurThese::class, 'directeur_these_id');
+        return $this->belongsTo(UserThese::class, 'directeur_these_id');
     }
 }

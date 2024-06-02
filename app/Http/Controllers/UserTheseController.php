@@ -4,34 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Laboratoire;
+use App\Models\UserThese;
 
-class LaboratoireController extends Controller
+class UserTheseController extends Controller
 {
     public function index()
     {
         return response()->json([
             'status' => 200,
-            'message' => "Departement Created successfully",
-            'data' => Laboratoire::all()], 200);
+            'message' => "User Created successfully",
+            'data' => UserThese::all()], 200);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'departement_id' => 'required|integer',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:user,email,' . $request->id,
+            'password' => 'required|string|min:8',
+            'role' => 'required|string',
+            'laboratoire_id' => 'nullable|exists:laboratoire,id',
             'super_admin_id' => 'required|integer',
         ]);
 
-        $laboratoire = Laboratoire::create($validated);
+        $userThese = UserThese::create($validated);
         return response()->json([
             'status' => 200,
             'message' => "Lab Created successfully",
             'data' => []], 201);
     }
 
-    public function show(Laboratoire $id)
+    public function show(UserThese $id)
     {
         return response()->json([
             'status' => 200,
@@ -39,12 +43,13 @@ class LaboratoireController extends Controller
             'data' => $id], 200);
     }
 
-    public function update(Request $request, Laboratoire $id)
+    public function update(Request $request, UserThese $id)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'departement_id' => 'required|integer',
-            'super_admin_id' => 'required|integer',
+            'first_name' => 'sometimes|string|max:255',
+            'last_name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|string|email|max:255|unique:super_admins,email,' . $id->id,
+            'password' => 'sometimes|string|min:8',
         ]);
 
         $id->update($validated);
@@ -54,7 +59,7 @@ class LaboratoireController extends Controller
             'data' => []], 200);
     }
 
-    public function destroy(Laboratoire $id)
+    public function destroy(UserThese $id)
     {
         $id->delete();
         return response()->json([

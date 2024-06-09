@@ -11,6 +11,7 @@ use App\Http\Controllers\TheseController;
 use App\Http\Controllers\DirecteurTheseController;
 use App\Http\Controllers\UserTheseController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ThesesFilesController;
 
 // Departement ROUTES
 Route::get('/api/departements', [DepartementController::class, 'index']);
@@ -68,3 +69,10 @@ Route::put('/api/user/{id}', [UserTheseController::class, 'update']);
 Route::delete('/api/user/{id}', [UserTheseController::class, 'destroy']);
 // Login Routes
 Route::post('/api/login', [LoginController::class, 'login']);
+
+Route::get('/api/files', [ThesesFilesController::class, 'get_all']);
+Route::get('/api/file/{id}', [ThesesFilesController::class, 'get']);
+Route::get('/api/download/file/{id}', [ThesesFilesController::class, 'download']);
+Route::post('/api/files', [ThesesFilesController::class, 'post']);
+// Route::put('/{id}', [ThesesFilesController::class, 'put']);
+Route::delete('/api/file/{id}', [ThesesFilesController::class, 'delete']);

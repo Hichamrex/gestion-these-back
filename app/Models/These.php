@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Laboratoire;
 // use App\Models\AgentRecherche;
 use App\Models\UserThese;
 use App\Models\DirecteurThese;
 use App\Models\Doctorant;
+use App\Models\ThesesFiles;
 
 class These extends Model
 {
@@ -46,5 +48,10 @@ class These extends Model
     public function directeur_these(): BelongsTo
     {
         return $this->belongsTo(UserThese::class, 'directeur_these_id');
+    }
+
+    public function files() : HasMany
+    {
+        return $this->hasMany(ThesesFiles::class, 'these_id');
     }
 }

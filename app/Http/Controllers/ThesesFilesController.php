@@ -113,7 +113,7 @@ class ThesesFilesController extends Controller
         return  response()->json([
             'status' => 200,
             'message' => "File Created successfully",
-            'data' => $facture], 200);;
+            'data' => $facture], 200);
     }
 
     /**
@@ -128,11 +128,10 @@ class ThesesFilesController extends Controller
         // $file->update(['archived' => 1]);
         $file->delete();
 
-        return (new Response(
-            true, 
-            'File deleted successfully',
-            $file
-        ))->get();
+        return response()->json([
+            'status' => 200,
+            'message' => "File Deleted successfully",
+            'data' => []], 200);
     }
 
     /**

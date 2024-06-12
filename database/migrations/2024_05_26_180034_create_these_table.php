@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('sujet');
-            $table->date('date_demarrage');
-            $table->string('date_publication');
+            $table->string('duree');
+            $table->date('date_publication')->nullabe();
             $table->date('date_soutenance')->nullable();
             $table->unsignedBigInteger('agent_recherche_id')->nullable();
             $table->foreign('agent_recherche_id')->references('id')->on('user')->onDelete('set null');

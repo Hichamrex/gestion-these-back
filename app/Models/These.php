@@ -21,7 +21,7 @@ class These extends Model
     protected $fillable = [
         'titre',
         'sujet',
-        'date_demarrage',
+        'duree',
         'date_publication',
         'date_soutenance',
         'agent_recherche_id',

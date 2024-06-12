@@ -23,8 +23,8 @@ class TheseController extends Controller
         $validated = $request->validate([
             'titre' => 'required|string|max:255',
             'sujet' => 'required|string|max:255',
-            'date_demarrage' => 'required|date',
-            'date_publication' => 'required|string|max:40',
+            'duree' => 'required|string',
+            'date_publication' => 'required|date',
             'date_soutenance' => 'required|date',
             'agent_recherche_id' => 'required|integer',
             'laboratoire_id' => 'required|integer',
@@ -52,8 +52,8 @@ class TheseController extends Controller
         $validated = $request->validate([
             'titre' => 'sometimes|string|max:255',
             'sujet' => 'sometimes|string|max:255',
-            'date_demarrage' => 'sometimes|date',
-            'date_publication' => 'sometimes|string',
+            'duree' => 'sometimes|string',
+            'date_publication' => 'sometimes|date',
             'date_soutenance' => 'sometimes|date',
             'agent_recherche_id' => 'required|integer',
             'laboratoire_id' => 'required|integer',

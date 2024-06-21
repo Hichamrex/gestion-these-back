@@ -148,7 +148,5 @@ class TheseController extends Controller
             'message' => "Departement Created successfully",
             'data' => []], 200);
     }
-
-
     
 }

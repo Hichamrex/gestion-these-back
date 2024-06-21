@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('titre');
             $table->string('sujet');
             $table->string('duree');
+            $table->string('resume');
+            $table->string('mot_cles');
             $table->date('date_publication')->nullabe();
             $table->date('date_soutenance')->nullable();
             $table->unsignedBigInteger('agent_recherche_id')->nullable();
@@ -29,6 +31,13 @@ return new class extends Migration
             
             $table->unsignedBigInteger('doctorant_id')->nullable();
             $table->foreign('doctorant_id')->references('id')->on('user')->onDelete('set null');
+
+            $table->unsignedBigInteger('examinateur_id')->nullable();
+            $table->foreign('examinateur_id')->references('id')->on('user')->onDelete('set null');
+
+            $table->unsignedBigInteger('rapporteur_id')->nullable();
+            $table->foreign('rapporteur_id')->references('id')->on('user')->onDelete('set null');
+
             $table->timestamps();
         });
     }

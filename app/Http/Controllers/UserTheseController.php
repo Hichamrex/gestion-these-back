@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserThese;
-
+use DB;
 class UserTheseController extends Controller
 {
     public function index()
@@ -66,5 +66,34 @@ class UserTheseController extends Controller
             'status' => 200,
             'message' => "Departement Deleted successfully",
             'data' => []]);
+    }
+
+    public function getCounts()
+    {
+        $counts = DB::table('user')
+            ->leftJoin('these as examinateur_these', 'user.id', '=', 'examinateur_these.examinateur_id')
+            ->leftJoin('these as rapporteur_these', 'user.id', '=', 'rapporteur_these.rapporteur_id')
+            ->leftJoin('these as directeur_these', 'user.id', '=', 'directeur_these.directeur_these_id')
+            ->leftJoin('these_jury', 'user.id', '=', 'these_jury.jury_id')
+            ->leftJoin('these as doctorant_these', 'user.id', '=', 'doctorant_these.doctorant_id')
+            ->select(
+                'user.id',
+                'user.first_name',
+                'user.last_name',
+                'user.role',
+                DB::raw('COUNT(DISTINCT examinateur_these.id) as examinateur_count'),
+                DB::raw('COUNT(DISTINCT rapporteur_these.id) as rapporteur_count'),
+                DB::raw('COUNT(DISTINCT directeur_these.id) as directeur_these_count'),
+                DB::raw('COUNT(DISTINCT these_jury.these_id) as jury_count'),
+                DB::raw('COUNT(DISTINCT doctorant_these.id) as doctorant_count')
+            )
+            ->groupBy('user.id', 'user.first_name', 'user.last_name', 'user.role')
+            ->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Counts retrieved successfully",
+            'data' => $counts
+        ], 200);
     }
 }

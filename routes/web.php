@@ -66,6 +66,7 @@ Route::get('/api/users', [UserTheseController::class, 'index']);
 Route::get('/api/user/{id}', [UserTheseController::class, 'show']);
 Route::post('/api/users', [UserTheseController::class, 'store']);
 Route::put('/api/user/{id}', [UserTheseController::class, 'update']);
+Route::get('/api/users/counts', [UserTheseController::class, 'getCounts']);
 Route::delete('/api/user/{id}', [UserTheseController::class, 'destroy']);
 // Login Routes
 Route::post('/api/login', [LoginController::class, 'login']);

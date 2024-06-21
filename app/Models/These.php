@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Laboratoire;
 // use App\Models\AgentRecherche;
 use App\Models\UserThese;
@@ -22,13 +23,16 @@ class These extends Model
         'titre',
         'sujet',
         'duree',
+        'resume',
+        'mot_cles',
         'date_publication',
         'date_soutenance',
         'agent_recherche_id',
         'laboratoire_id',
         'directeur_these_id',
         'doctorant_id',
-    ];
+        'examinateur_id',
+        'rapporteur_id'    ];
 
     public function agent_recheche(): BelongsTo
     {
@@ -50,8 +54,24 @@ class These extends Model
         return $this->belongsTo(UserThese::class, 'directeur_these_id');
     }
 
+    public function examinateur_these(): BelongsTo
+    {
+        return $this->belongsTo(UserThese::class, 'examinateur_id');
+    }
+
+    public function rapporteur_these(): BelongsTo
+    {
+        return $this->belongsTo(UserThese::class, 'rapporteur_id');
+    }
+
+
     public function files() : HasMany
     {
         return $this->hasMany(ThesesFiles::class, 'these_id');
+    }
+
+    public function juries(): BelongsToMany
+    {
+        return $this->belongsToMany(UserThese::class, 'these_jury', 'these_id', 'jury_id');
     }
 }

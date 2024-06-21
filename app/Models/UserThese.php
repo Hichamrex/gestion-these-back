@@ -48,4 +48,9 @@ class UserThese extends Model
         return $this->hasMany(These::class, 'doctorant_id');
     }
 
+    public function thesesJurys(): BelongsToMany
+    {
+        return $this->belongsToMany(These::class, 'these_jury', 'jury_id', 'these_id');
+    }
+
 }

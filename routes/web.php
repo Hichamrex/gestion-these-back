@@ -77,5 +77,7 @@ Route::get('/api/file/{id}', [ThesesFilesController::class, 'get']);
 Route::get('/api/download/file/{id}', [ThesesFilesController::class, 'download']);
 Route::post('/api/files', [ThesesFilesController::class, 'post']);
 Route::get('/api/user/{userId}/theses', [TheseController::class, 'getThesesByUser']);
+Route::get('/api/theses/counts', [TheseController::class, 'getThesisCounts']);
+Route::get('/api/theses/upcoming', [TheseController::class, 'getUpcomingTheses']);
 // Route::put('/{id}', [ThesesFilesController::class, 'put']);
 Route::delete('/api/file/{id}', [ThesesFilesController::class, 'delete']);

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\These;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 
 class TheseController extends Controller
@@ -33,6 +36,9 @@ class TheseController extends Controller
             'duree' => 'required|string',
             'resume' => 'required|string|max:4000',
             'mot_cles' => 'required|string',
+            'discipline'=> 'required|string',
+         'preparation' => 'required|boolean',
+         'soutenue' => 'required|boolean',
             'date_publication' => 'required|date',
             'date_soutenance' => 'required|date',
             'agent_recherche_id' => 'required|integer',
@@ -70,6 +76,9 @@ class TheseController extends Controller
                     'duree' => $id->duree,
                     'resume' => $id->resume,
                     'mot_cles' => $id->mot_cles,
+                    'discipline'=> $id->discipline,
+                    'preparation' => $id->preparation,
+                    'soutenue' => $id->soutenue,
                     'date_publication' => $id->date_publication,
                     'date_soutenance' => $id->date_soutenance,
                     'agent_recherche_id' => $id->agent_recherche_id,
@@ -110,6 +119,9 @@ class TheseController extends Controller
             'duree' => 'sometimes|string',
             'resume' => 'required|string|max:4000',
             'mot_cles' => 'required|string',
+            'discipline'=> 'required|string',
+            'preparation' => 'required|boolean',
+            'soutenue' => 'required|boolean',
             'date_publication' => 'sometimes|date',
             'date_soutenance' => 'sometimes|date',
             'agent_recherche_id' => 'required|integer',
@@ -288,4 +300,58 @@ public function getThesesByUser($userId)
             'data' => $formattedTheses
         ], 200);
     }
+
+
+    public function getThesisCounts()
+    {
+        // Count of theses that are in preparation
+        $preparationCount = DB::table('these')->where('preparation', 1)->count();
+
+        // Count of theses that are soutenue
+        $soutenueCount = DB::table('these')->where('soutenue', 1)->count();
+
+        // Number of unique users attached to the theses
+        $uniqueUsersCount = DB::table(function ($query) {
+            $query->select('agent_recherche_id AS user_id')->from('these')->whereNotNull('agent_recherche_id')
+                ->union(
+                    DB::table('these')->select('directeur_these_id')->whereNotNull('directeur_these_id')
+                )
+                ->union(
+                    DB::table('these')->select('doctorant_id')->whereNotNull('doctorant_id')
+                )
+                ->union(
+                    DB::table('these')->select('examinateur_id')->whereNotNull('examinateur_id')
+                )
+                ->union(
+                    DB::table('these')->select('rapporteur_id')->whereNotNull('rapporteur_id')
+                );
+        })->distinct()->count('user_id');
+
+        // Return the results as JSON
+        return response()->json([
+            'status' => 200,
+            'message' => "Theses retrieved successfully",
+            'data' => [
+            'preparation_count' => $preparationCount,
+            'soutenue_count' => $soutenueCount,
+            'unique_users_count' => $uniqueUsersCount,
+        ]]);
+    }
+
+    public function getUpcomingTheses()
+    {
+        $currentDate = Carbon::now();
+
+        $theses = These::where('date_soutenance', '>', $currentDate)
+                        ->where('preparation', 1)
+                        ->orderBy('date_soutenance', 'asc')
+                        ->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Theses retrieved successfully",
+            'data' => $theses
+        ]);
+    }
+
 }

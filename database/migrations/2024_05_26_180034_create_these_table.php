@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('duree');
             $table->string('resume');
             $table->string('mot_cles');
+            $table->string('discipline');
+            $table->boolean('preparation');
+            $table->boolean('soutenue');
             $table->date('date_publication')->nullabe();
             $table->date('date_soutenance')->nullable();
             $table->unsignedBigInteger('agent_recherche_id')->nullable();

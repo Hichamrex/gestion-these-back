@@ -68,6 +68,7 @@ Route::post('/api/users', [UserTheseController::class, 'store']);
 Route::put('/api/user/{id}', [UserTheseController::class, 'update']);
 Route::get('/api/users/counts', [UserTheseController::class, 'getCounts']);
 Route::delete('/api/user/{id}', [UserTheseController::class, 'destroy']);
+
 // Login Routes
 Route::post('/api/login', [LoginController::class, 'login']);
 
@@ -75,5 +76,6 @@ Route::get('/api/files', [ThesesFilesController::class, 'get_all']);
 Route::get('/api/file/{id}', [ThesesFilesController::class, 'get']);
 Route::get('/api/download/file/{id}', [ThesesFilesController::class, 'download']);
 Route::post('/api/files', [ThesesFilesController::class, 'post']);
+Route::get('/api/user/{userId}/theses', [TheseController::class, 'getThesesByUser']);
 // Route::put('/{id}', [ThesesFilesController::class, 'put']);
 Route::delete('/api/file/{id}', [ThesesFilesController::class, 'delete']);
